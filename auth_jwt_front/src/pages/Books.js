@@ -48,7 +48,8 @@ function Books() {
     // Add book to user
 
     const handleAddBookToUser = async (idBook) => {
-        await axios.post(`http://localhost:8080/api/v1/addBookToUser/${decodedToken.sub}/${idBook}`, 
+        //toast.success(idBook)
+        await axios.put(`http://localhost:8080/api/v1/addBookToUser/${decodedToken.sub}/${idBook}`, 
                 {
                     headers:{
                         "Content-Type": "Application/json",

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("api/v1")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
@@ -24,7 +24,7 @@ public class UserController {
     private final UserService userService;
     private final BookService bookService;
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public ResponseEntity<TokenDto> register(@RequestBody UserDto userDto){
         TokenDto tokenDto = userService.register(userDto);
         if (tokenDto == null)
@@ -33,7 +33,7 @@ public class UserController {
             return new ResponseEntity<TokenDto>(tokenDto, HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public ResponseEntity<TokenDto> login(@RequestBody CredentialDto credentialDto){
         TokenDto tokenDto = userService.signIn(credentialDto);
         if (tokenDto == null)
@@ -42,19 +42,19 @@ public class UserController {
             return ResponseEntity.ok(tokenDto);
     }
 
-    @GetMapping("/user/{email}")
+    @GetMapping("user/{email}")
     public ResponseEntity<User> getOneUser(@PathVariable String email){
         return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 
-    @PostMapping("/addBookToUser/{email}/{bookId}")
+    @PutMapping("addBookToUser/{email}/{bookId}")
     public ResponseEntity<Boolean> addBook(@PathVariable String email, @PathVariable int bookId){
 
-        System.out.println("====================EndPoint chekcked =============");
+        System.out.println("====================EndPoint chekcked ============="+email+"====="+bookId);
         return ResponseEntity.ok(userService.addBookToUser(email, bookId));
     }
 
-    @PostMapping("/addBookToStock")
+    @PostMapping("addBookToStock")
     public ResponseEntity<BookDto> addBookToDb(@RequestBody BookDto bookDto){
         BookDto bookDto1 = bookService.addBookToStock(bookDto);
         if (bookDto1 == null)
