@@ -36,11 +36,14 @@ function Home() {
     fetchUserData();
   }, [])
 
+  const username = decodedToken.sub 
+  let name = username.split("@")
+
   return (
     <div className='main'>
       <div className='header-title'>
-          <p style={{marginLeft:"-30px"}}>Welcome to dashboard {user.name} !</p>
-      </div>
+          <p>Welcome to Dashboard {name[0].toUpperCase()} !</p>
+        </div>
       <div className='header'>
         <Header />
      

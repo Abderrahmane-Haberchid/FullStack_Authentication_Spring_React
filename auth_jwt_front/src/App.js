@@ -32,6 +32,9 @@ function App() {
         <Route path='/my_books' element={
               <PrivateRoute token={token} element={<MyBooks />}/>} 
         />
+        <Route path='/logout' element={
+              <PrivateRoute token={token} element={<SignIn />}/>} 
+        />
         <Route path='/login' element={<SignIn />} />
         <Route path='/register' element={<SignUp />} />
       </Routes>

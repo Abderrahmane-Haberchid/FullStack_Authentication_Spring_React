@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -78,11 +79,19 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.findByUsername(email);
         Books books = bookRepository.findById(bookId).get();
 
-        List<Books> booksSet = new ArrayList<>();
-        booksSet.add(books);
-
-        user.setBooksSet(booksSet);
+        user.getBooksSet().add(books);
         userRepository.save(user);
+        return true;
+    }
+
+    @Override
+    public boolean deleteMyBook(String email, int id) {
+        User user = userRepository.findByUsername(email);
+
+        List<Books> books = user.getBooksSet().stream().filter(book -> book.getId() == id).toList();
+        user.getBooksSet().removeAll(books);
+        userRepository.save(user);
+
         return true;
     }
 }

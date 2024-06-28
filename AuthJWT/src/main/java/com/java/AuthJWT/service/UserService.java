@@ -14,4 +14,6 @@ public interface UserService {
     User getUserByEmail(String email);
 
     boolean addBookToUser(String email, int bookId);
+
+    boolean deleteMyBook(String email, int id);
 }

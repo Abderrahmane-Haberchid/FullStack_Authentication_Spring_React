@@ -17,4 +17,6 @@ public interface BookService {
 
     BookDto getBookById(int id);
 
+    BookDto updateBook(BookDto bookDto, int id);
+
 }

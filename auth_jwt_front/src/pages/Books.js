@@ -15,10 +15,12 @@ function Books() {
     const [modalUpdateShow, setModalUpdateShow] = useState(false);
     const [modalDeleteShow, setModalDeleteShow] = useState(false);
     const [modalAddShow, setModalAddShow] = useState(false);
+    
     const [bookId, setBookId] = useState("")
     const [books, setBooks] = useState([])
+
     const [spinner, setSpinner] = useState(true)
-    //const [search, setSearch] = useState("")
+
     const [filteredBooks, setFilteredBooks] = useState([])
 
     const token = localStorage.getItem("token")
@@ -49,7 +51,7 @@ function Books() {
 
     const handleAddBookToUser = async (idBook) => {
         //toast.success(idBook)
-        await axios.put(`http://localhost:8080/api/v1/addBookToUser/${decodedToken.sub}/${idBook}`, 
+        await axios.get(`http://localhost:8080/api/v1/addBookToUser/${decodedToken.sub}/${idBook}`, 
                 {
                     headers:{
                         "Content-Type": "Application/json",
@@ -60,11 +62,12 @@ function Books() {
             res.status === 200 && toast.success('Book added to your List')
 
         })).catch(err => {
-            toast.error('An error has occured')
+            toast.error('An error has occured '+ err.response.status)
 
         })
     }
 
+   
     // Update Book
 
     const handleUpdateBook = async (bookId) => {
@@ -120,11 +123,8 @@ function Books() {
     const filterBooks =  (e) => {
 
         const search = e.target.value
-
         let filtered = books.filter((b) => b.name.toLowerCase().includes(search.toLowerCase())  )
-        //search === "" ? setFilteredBooks(books) : 
         setFilteredBooks(filtered)
-        console.log(filteredBooks)
     }
 
     useEffect(() => {
@@ -140,11 +140,12 @@ function Books() {
         setModalUpdateShow(true)
         setBookId(bId)
     }
-
+    const username = decodedToken.sub
+    let name = username.split("@")
   return (
     <div>
         <div className='header-title'>
-          <p>Welcome to Dashboard Abdo !</p>
+          <p>Welcome to Dashboard {name[0].toUpperCase()} !</p>
         </div>
         <Header />
         <div style={{display:"flex", justifyContent:"space-between", marginBottom:"20px"}}>
@@ -196,7 +197,8 @@ function Books() {
 
         <ModalForm
         show={modalUpdateShow}
-        onHide={() => setModalUpdateShow(false)}
+        onHide={() => setModalUpdateShow(false) }
+        id={bookId}    
       />
       <ModalConfirmation
         show={modalDeleteShow}
@@ -209,7 +211,7 @@ function Books() {
       <ModalConfirmation
         show={modalAddShow}
         onHide={() => setModalAddShow(false)}
-        bodyText="Would you like to add this book to you List ?"
+        bodyText="Would you like to add this book to your List ?"
         btnConfirmation="Add"
         handleSubmit={() => handleAddBookToUser(bookId)}
       />

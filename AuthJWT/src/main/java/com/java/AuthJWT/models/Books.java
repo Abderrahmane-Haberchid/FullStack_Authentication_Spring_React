@@ -1,10 +1,12 @@
 package com.java.AuthJWT.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "book")
@@ -26,4 +28,7 @@ public class Books {
     private Date publication;
     @Column(nullable = false)
     private double price;
+
+    @ManyToMany
+    List<User> user;
 }

@@ -47,11 +47,14 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 
-    @PutMapping("addBookToUser/{email}/{bookId}")
+    @GetMapping("addBookToUser/{email}/{bookId}")
     public ResponseEntity<Boolean> addBook(@PathVariable String email, @PathVariable int bookId){
+            return ResponseEntity.ok(userService.addBookToUser(email, bookId));
+    }
 
-        System.out.println("====================EndPoint chekcked ============="+email+"====="+bookId);
-        return ResponseEntity.ok(userService.addBookToUser(email, bookId));
+    @GetMapping("deleteMyBook/{email}/{bookId}")
+    public ResponseEntity<Boolean> deleteOneMyBook(@PathVariable String email, @PathVariable int bookId){
+          return ResponseEntity.ok(userService.deleteMyBook(email, bookId));
     }
 
     @PostMapping("addBookToStock")

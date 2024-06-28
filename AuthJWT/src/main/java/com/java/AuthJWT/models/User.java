@@ -39,7 +39,7 @@ public class User implements UserDetails {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private Date createdAt;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Books> booksSet;
 
 

@@ -75,4 +75,17 @@ public class BookServiceImpl implements BookService{
 
         return bookDto;
     }
+
+    @Override
+    public BookDto updateBook(BookDto bookDto, int id) {
+        Books books = bookRepository.findById(id).get();
+
+        books.setAuthor(bookDto.author());
+        books.setName(bookDto.name());
+        books.setPublication(bookDto.datePublication());
+        books.setPrice(bookDto.price());
+
+        bookRepository.save(books);
+        return bookDto;
+    }
 }

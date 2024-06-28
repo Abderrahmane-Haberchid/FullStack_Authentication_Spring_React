@@ -1,6 +1,6 @@
 
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, {useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,7 +16,7 @@ function SignIn() {
 
     const [data, setData] = useState([])
     const [showPassword, setShowPassword] = useState(false)
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     const handlePasswordEye = () => {
         setShowPassword(prev => !showPassword)
@@ -41,7 +41,7 @@ function SignIn() {
                     localStorage.setItem("token", response.data.token)
                     setTimeout(() => {
                         navigate('/home') 
-                    }, 3000)
+                    }, 5000)
                     
             }
         }

@@ -34,11 +34,12 @@ function AddBook() {
             toast.error('Please check your connection !')
         )
     }
-
+    const username = decodedToken.sub 
+    let name = username.split("@")
   return (
     <div >
         <div className='header-title'>
-          <p>Welcome to dashboard Abdo !</p>
+          <p>Welcome to Dashboard {name[0].toUpperCase()} !</p>
       </div>
         <Header />
 

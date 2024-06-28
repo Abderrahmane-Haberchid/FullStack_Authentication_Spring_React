@@ -26,7 +26,7 @@ public class SecurityConfig {
                                 auth.requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
                                         .requestMatchers(HttpMethod.DELETE, "/api/v1/book/delete/").hasAnyAuthority("ADMIN", "MASTER")
-                                       // .requestMatchers(HttpMethod.PUT, "/api/v1/book/update/**").hasAnyAuthority("ADMIN", "MASTER")
+                                        .requestMatchers(HttpMethod.POST, "/api/v1/book/update/").hasAnyRole("ADMIN", "MASTER")
                                         .anyRequest().authenticated()
 
                 )
