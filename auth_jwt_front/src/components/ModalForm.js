@@ -11,7 +11,9 @@ function ModalForm(props) {
 
   const {
     register,
-    handleSubmit
+    handleSubmit,
+    formState: {errors},
+    setValue
   } = useForm();
 
   const token = localStorage.getItem("token")
@@ -38,7 +40,7 @@ function ModalForm(props) {
   }, [props.id])
 
   const handleSubmitBtn = async (data) => {
-      await axios.post(`http://localhost:8080/api/v1/book/update/${props.id}`, data, 
+      await axios.put(`http://localhost:8080/api/v1/book/update/${props.id}`, data, 
         {
           headers:{
             'Content-Type': 'Application/json',
@@ -46,9 +48,13 @@ function ModalForm(props) {
           }
         }
       ).then(res => {
-          res === 200 && toast.success("Book "+props.id+" Updated !")
+          toast.success("Book "+props.id+" Updated !")
+          setTimeout(() => {
+            window.location.reload()
+          }, 5000)
+          
       }).catch(err => {
-        toast.error("An error has occured !")
+            err.response.status === 403 && toast.error("Only ADMIN is allowed to update !")
       })
   }
   return (
@@ -66,26 +72,38 @@ function ModalForm(props) {
       <Modal.Body>
 
         <Form method='POST' onSubmit={handleSubmit(handleSubmitBtn)}>
-          <Form.Group>
-            <Form.Label>Name</Form.Label>
-            <Form.Control {...register("name")} type="text" value={book.name} />
-          </Form.Group>
+          
+                <Form.Group>
+                <Form.Label>Name</Form.Label>
+                <Form.Control {...register("name", {required:"Name is required..."})} 
+                              type="text" 
+                              {...setValue('name', book.name)} />
+                </Form.Group>
+                {errors.name && <p className='text text-danger mt-2'>{errors.name.message}</p>}
 
-          <Form.Group>
-            <Form.Label>Author</Form.Label>
-            <Form.Control {...register("author")} type="text" value={book.author} />
-          </Form.Group>
+                <Form.Group>
+                <Form.Label>Author</Form.Label>
+                <Form.Control {...register("author", {required: 'Athor name is required...'})} 
+                              type="text" 
+                              {...setValue('author', book.author)} />
+                </Form.Group>
+                {errors.author && <p className='text text-danger mt-2'>{errors.author.message}</p>}
 
-          <Form.Group>
-            <Form.Label>Publication Date</Form.Label>
-            <Form.Control {...register("datePublication")} type="date" value={book.publication} />
-          </Form.Group>
+                <Form.Group>
+                <Form.Label>Publication Date</Form.Label>
+                <Form.Control {...register("datePublication", {required: 'Publication date required...'})} 
+                              type="date" 
+                              {...setValue('datePublication', book.datePublication)} />
+                </Form.Group>
+                {errors.datePublication && <p className='text text-danger mt-2'>{errors.datePublication.message}</p>}
 
-          <Form.Group>
-            <Form.Label>Price</Form.Label>
-            <Form.Control {...register("price")} type="text" value={book.price} />
-          </Form.Group>
-
+                <Form.Group>
+                <Form.Label>Price</Form.Label>
+                <Form.Control {...register("price", {required: 'Price is required...'})} 
+                              type="text" 
+                              {...setValue('price', book.price)} />
+                </Form.Group>
+                {errors.price && <p className='text text-danger mt-2'>{errors.price.message}</p>}
           <Button type='submit' variant='success'>Update Book</Button>
         </Form>
       </Modal.Body>

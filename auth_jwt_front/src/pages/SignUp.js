@@ -12,7 +12,8 @@ function SignUp() {
 
     const {
         register,
-        handleSubmit
+        handleSubmit,
+        formState: {errors}
     } = useForm()
 
     const handleRegister = async (data) => {
@@ -49,27 +50,37 @@ function SignUp() {
         <Form method='POST' onSubmit={handleSubmit(handleRegister)} className='form'>
             <Form.Group className='mb-3'>
                 <Form.Label>Username:</Form.Label>    
-                <Form.Control {...register("name")} type="text" placeholder='Type your name...' />
+                <Form.Control {...register("name", {required: 'Username is required...'})} 
+                              type="text" 
+                              placeholder='Type your name...' />
+                {errors.name && <p className='text text-danger mt-1'>{errors.name.message}</p>}
             </Form.Group>
 
             <Form.Group className='mb-3'>
                 <Form.Label>Email:</Form.Label>    
-                <Form.Control {...register("username")} type="email" placeholder='Type your email...' />
+                <Form.Control {...register("username", {required: 'Email is required...'})} 
+                              type="email" 
+                              placeholder='Type your email...' />
+                {errors.username && <p className='text text-danger mt-1'>{errors.username.message}</p>}              
             </Form.Group>
             
             <Form.Group className='mb-3'>
                 <Form.Label>Password:</Form.Label>    
-                <Form.Control {...register("password")} type="password" placeholder='Type your password...' />
+                <Form.Control {...register("password" , {required: 'Password is required...'})} 
+                              type="password" 
+                              placeholder='Type your password...' />
+                {errors.password && <p className='text text-danger mt-1'>{errors.password.message}</p>}                              
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Role</Form.Label>
-                <Form.Select {...register("role")} aria-label="Default select example">
+                <Form.Select {...register("role", {required: 'Role is required...'})}>
                     <option>Select Role</option>
                     <option value="USER">USER</option>
                     <option value="ADMIN">ADMIN</option>
-                    <option value="MASTER">MASTER</option>
                 </Form.Select>
+
+                {errors.role && <p className='text text-danger mt-1'>{errors.role.message}</p>}
             </Form.Group>
             <Button type="submit" variant='primary' className='btnSubmit'>Register</Button>
         </Form>

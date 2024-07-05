@@ -36,7 +36,7 @@ function Books() {
                 }
             }
         ).then(res => {
-            setBooks(res.data)
+            setBooks(res.data.sort((a,b) => b.id-a.id))
             setFilteredBooks(res.data)
             setSpinner(false)
         }).catch(err => {
@@ -70,32 +70,26 @@ function Books() {
    
     // Update Book
 
-    const handleUpdateBook = async (bookId) => {
-        if(decodedToken.role === "ADMIN" || decodedToken.role === "ADMIN"){
-        await axios.put(`http://localhost:8080/api/v1/book/update/${bookId}`,
-            {
-                headers:{
-                    "Content-Type": "Application/json",
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-         ).then(res =>{
-            res.status === 200 && toast.success("Book Updated !")
+    // const handleUpdateBook = async (bookId) => {
+    //     await axios.put(`http://localhost:8080/api/v1/book/update/${bookId}`,
+    //         {
+    //             headers:{
+    //                 "Content-Type": "Application/json",
+    //                 "Authorization": `Bearer ${token}`
+    //             }
+    //         }
+    //      ).then(res =>{
+    //         res.status === 200 && toast.success("Book Updated !")
 
-         }).catch(err => {
-            toast.error("An error has occured")
+    //      }).catch(err => {
+    //         toast.error("An error has occured")
 
-         })
-        }
-        else 
-          toast.warning("Only ADMIN and MASTER are Allowed to Update")
+    //      })
 
-    }
+    // }
      // Delete Book
 
      const handleDeleteBook = async (bookId) => {
-
-        if(decodedToken.role !== "USER"){
 
         await axios.delete(`http://localhost:8080/api/v1/book/delete/${bookId}`,
             {
@@ -111,14 +105,15 @@ function Books() {
             }, 5000)
 
          }).catch(err => {
-            toast.error("An error has occured")
+            toast.error("Only ADMIN is Allowed to Delete")
+            setModalDeleteShow(false)
 
+            setTimeout(() => {
+                window.location.reload();
+            }, 5000)
          })
         }
-        else 
-          toast.warning("Only ADMIN and MASTER are Allowed to Delete")
 
-    }
     
     const filterBooks =  (e) => {
 
@@ -131,6 +126,7 @@ function Books() {
         fetchBooks();
     }, [])
 
+    //Showing confirmation alert dialog and Modal form to update
     const handleDeleteBtn = (bId) => {
         setModalDeleteShow(true)
         setBookId(bId)
@@ -140,6 +136,8 @@ function Books() {
         setModalUpdateShow(true)
         setBookId(bId)
     }
+    //=============
+    
     const username = decodedToken.sub
     let name = username.split("@")
   return (

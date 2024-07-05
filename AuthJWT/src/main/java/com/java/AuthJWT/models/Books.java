@@ -29,6 +29,4 @@ public class Books {
     @Column(nullable = false)
     private double price;
 
-    @ManyToMany
-    List<User> user;
 }

@@ -21,16 +21,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(new JwtFilter(provider), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth ->
-                                auth.requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll()
-                                        .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
-                                        .requestMatchers(HttpMethod.DELETE, "/api/v1/book/delete/").hasAnyAuthority("ADMIN", "MASTER")
-                                        .requestMatchers(HttpMethod.POST, "/api/v1/book/update/").hasAnyRole("ADMIN", "MASTER")
+                                auth.requestMatchers("/api/v1/register").permitAll()
+                                        .requestMatchers( "/api/v1/login").permitAll()
+                                        .requestMatchers( "/api/v1/book/delete/**").hasAnyAuthority("ADMIN")
+                                        .requestMatchers( "/api/v1/book/update/**").hasAnyAuthority("ADMIN")
+                                       // .requestMatchers("/api/v1/addBookToStock").hasAnyAuthority("ADMIN")
                                         .anyRequest().authenticated()
 
                 )
-                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }

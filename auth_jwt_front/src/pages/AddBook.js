@@ -10,7 +10,8 @@ function AddBook() {
 
     const {
         register,
-        handleSubmit
+        handleSubmit,
+        formState: {errors}
     } = useForm()
 
     const token = localStorage.getItem('token')
@@ -30,8 +31,12 @@ function AddBook() {
             }
         ).then(res => {
             res.status === 200 && toast.success("Book Added")
-        }).catch(err =>
-            toast.error('Please check your connection !')
+        }).catch(err =>{
+            err.response.status === 403 && toast.error('Only ADMIN is allowed to add book !')
+            setTimeout(() => {
+                window.location.reload()
+            }, 5000)
+        }
         )
     }
     const username = decodedToken.sub 
@@ -53,34 +58,42 @@ function AddBook() {
             <Form.Group className='mb-4'>
                 <Form.Label>Book Name:</Form.Label>
                 <Form.Control 
-                    {...register("name")}
+                    {...register("name", {required: 'Book name is required...'})}
                     type="text" 
                     placeholder="Name..."/>
+
+                {errors.name && <p className='text text-danger mt-1'>{errors.name.message}</p> }        
             </Form.Group>
+            
 
             <Form.Group className='mb-4'>
                 <Form.Label>Author Name:</Form.Label>
                 <Form.Control 
-                    {...register("author")}
+                    {...register("author", {required: 'Author name is required...'})}
                     type="text" 
                     placeholder="Author..."/>
+
+                {errors.author && <p className='text text-danger mt-1'>{errors.author.message}</p> }          
             </Form.Group>
 
             <Form.Group className='mb-4'>
                 <Form.Label>Publication Date:</Form.Label>
                 <Form.Control 
-                    {...register("datePublication")}
+                    {...register("datePublication", {required: 'Publication date is required...'})}
                     type="date" 
                     placeholder="Publication date..."/>
-            </Form.Group>
+
+               {errors.datePublication && <p className='text text-danger mt-1'>{errors.datePublication.message}</p> }       
+            </Form.Group>  
 
             <Form.Group>
                 <Form.Label>Book Price:</Form.Label>
                 <Form.Control 
-                    {...register("price")}
+                    {...register("price", {required: 'Price is required...'})}
                     type="text" 
                     placeholder="Price..."/>
             </Form.Group>
+            {errors.price && <p className='text text-danger'>{errors.price.message}</p> }     
 
             <Button type='submit' style={{width:"550px", marginTop:"20px"}} variant='primary'>Save Book</Button>
         </Form>
