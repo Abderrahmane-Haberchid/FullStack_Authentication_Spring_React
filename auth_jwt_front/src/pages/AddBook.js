@@ -22,7 +22,7 @@ function AddBook() {
 
     const handleAddBook = async (data) => {
 
-        await axios.post("http://localhost:8080/api/v1/addBookToStock", data,
+        await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/addBookToStock`, data,
             {
                 headers:{
                     "Content-Type": "Application/json",

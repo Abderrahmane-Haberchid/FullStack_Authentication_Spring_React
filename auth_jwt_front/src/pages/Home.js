@@ -16,7 +16,7 @@ function Home() {
   const decodedToken = jwtDecode(token)
 
   const fetchUserData = async () => {
-      await axios.get(`http://localhost:8080/api/v1/user/${decodedToken.sub}`, 
+      await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/user/${decodedToken.sub}`, 
         {
           headers:{
             "Content-Type": "Application/json",

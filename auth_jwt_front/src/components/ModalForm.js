@@ -19,7 +19,7 @@ function ModalForm(props) {
   const token = localStorage.getItem("token")
 
   const fetchBookById = async () => {
-    await axios.get(`http://localhost:8080/api/v1/book/${props.id}`, 
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/book/${props.id}`, 
       {
         headers:{
           'Content-Type': 'Application/json',
@@ -40,7 +40,7 @@ function ModalForm(props) {
   }, [props.id])
 
   const handleSubmitBtn = async (data) => {
-      await axios.put(`http://localhost:8080/api/v1/book/update/${props.id}`, data, 
+      await axios.put(`${process.env.REACT_APP_BASE_URL}/api/v1/book/update/${props.id}`, data, 
         {
           headers:{
             'Content-Type': 'Application/json',

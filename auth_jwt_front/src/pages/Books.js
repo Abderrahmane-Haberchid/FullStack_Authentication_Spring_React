@@ -28,7 +28,7 @@ function Books() {
     const decodedToken = jwtDecode(token)
 
     const fetchBooks = async () => {
-        await axios.get("http://localhost:8080/api/v1/all",         
+        await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/all`,         
             {
                 headers:{
                     "Content-Type": "Application/json",
@@ -51,7 +51,7 @@ function Books() {
 
     const handleAddBookToUser = async (idBook) => {
         //toast.success(idBook)
-        await axios.get(`http://localhost:8080/api/v1/addBookToUser/${decodedToken.sub}/${idBook}`, 
+        await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/addBookToUser/${decodedToken.sub}/${idBook}`, 
                 {
                     headers:{
                         "Content-Type": "Application/json",
@@ -91,7 +91,7 @@ function Books() {
 
      const handleDeleteBook = async (bookId) => {
 
-        await axios.delete(`http://localhost:8080/api/v1/book/delete/${bookId}`,
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v1/book/delete/${bookId}`,
             {
                 headers:{
                     "Content-Type": "Application/json",

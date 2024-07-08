@@ -18,7 +18,8 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://demo-bucket-testauth.s3-website-us-east-1.amazonaws.com")
 public class UserController {
 
     private final UserService userService;

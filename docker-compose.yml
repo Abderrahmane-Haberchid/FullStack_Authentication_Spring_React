@@ -1,0 +1,31 @@
+version: '1'
+services:
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 5431:5432
+    platform: linux/amd64  
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=Pilote2lignE
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=auth_db
+
+  auth-demo-back:
+      build:
+        context: ./AuthJWT
+        dockerfile: Dockerfile
+      ports:
+        - "8000:8000"
+      platform: linux/amd64  
+      image: auth-back-image/web:latest
+
+  auth-demo-front:
+      build:
+        context: ./auth_jwt_front
+        dockerfile: Dockerfile
+      image: auth-front-image/web:latest  
+      platform: linux/amd64
+      ports:
+        - "3001:3000"

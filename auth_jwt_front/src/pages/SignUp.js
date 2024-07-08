@@ -18,7 +18,7 @@ function SignUp() {
 
     const handleRegister = async (data) => {
         console.log(data)
-        await axios.post("http://localhost:8080/api/v1/register", data,
+        await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/register`, data,
             {
                 Headers:{
                     "Content-Type": "Application/json"
